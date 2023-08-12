@@ -4,11 +4,12 @@ import ctypes
 
 # издевательство, перевод с англ раскладки на РУ
 dict_key = {
-    'q': 'й', 'w': 'ц', 'e': 'у', 'r': 'к', 't': 'е', 'y': 'н', 'u': 'г', 'i': 'ш', 'o': 'щ', 'p': 'з',
-    'a': 'ф', 's': 'ы', 'd': 'в', 'f': 'а', 'g': 'п', 'h': 'р', 'j': 'о', 'k': 'л', 'l': 'д', ';': 'ж',
-    'z': 'я', 'x': 'ч', 'c': 'с', 'v': 'м', 'b': 'и', 'n': 'т', 'm': 'ь', ',': 'б', '.': 'ю', '/': '.',
-    '[': 'х', ']': 'ъ', '`': 'ё', '\\': '\\', "'": 'э'
+    81: 'й', 87: 'ц', 69: 'у', 82: 'к', 84: 'е', 89: 'н', 85: 'г', 73: 'ш', 79: 'щ', 80: 'з',
+    65: 'ф', 83: 'ы', 68: 'в', 70: 'а', 71: 'п', 72: 'р', 74: 'о', 75: 'л', 76: 'д', 186: 'ж',
+    90: 'я', 88: 'ч', 67: 'с', 86: 'м', 66: 'и', 78: 'т', 77: 'ь', 188: 'б', 190: 'ю', 191: '.',
+    219: 'х', 221: 'ъ', 192: 'ё', 220: '\\', 222: 'э'
 }
+
 
 # словарь кодов ЯЗЫКОВ
 dict_langs = {
@@ -37,17 +38,23 @@ class KeyboardPrint(LanguageQual):
         lang_id = self.keyboardLayout()
         current_lang = dict_langs.get(lang_id, 'ERROR')
 
-        if current_lang == 'US':
-            print(f'Press - {key}')
+        try:
+            if current_lang == 'US':
+                print(f'Press - {key}')
+            elif current_lang == 'RU':
+                key_RU = dict_key.get(key.vk, 'No key')
+                print(f'Нажата - {key_RU}, Ord Code = {key.vk}. KeyEN = {key}')
+        except AttributeError:
+            print(f'Press2 - {key}')
 
     def key_print(self):
         with keyboard.Listener(on_press=self.on_press) as listener:
             listener.join()
 
 
-if __name__ == "__main__":
-    k = KeyboardPrint()  # Создание экземпляра класса
-    print(k.key_print())  # Вызов метода у экземпляра
+
+k = KeyboardPrint()  # Создание экземпляра класса
+print(k.key_print())  # Вызов метода у экземпляра
 
 
 
