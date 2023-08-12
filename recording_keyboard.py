@@ -34,7 +34,6 @@ log_keys = []
 
 class AddTextFile:
     """СОЗДАНИЕ .TXT ФАЙЛА С ЛОГАМИ"""
-
     def add_el_file(self, log_key, file_name='system_monitoring.txt'):
         self.log_key = log_key
         self.file_name = file_name
@@ -43,7 +42,7 @@ class AddTextFile:
             with open(self.file_name, 'a', encoding='utf-8') as file:
                 file.write('\n')  # запись новых списков с новой строки
                 for item in self.log_key:
-                    file.write(item + '\n')
+                    file.write(item + '\n') # прочитка каждой строки из 100 символов в списке и печатание ее с новой строки
 
             log_keys.clear()
 
