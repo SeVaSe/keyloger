@@ -1,4 +1,5 @@
 '''ФАЙЛ МАКСИМА, СКРЫТЬ ПРОГРАММУ'''
+
 import win32gui
 import win32con
 
