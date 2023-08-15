@@ -38,7 +38,7 @@ def send_email(file_path):
 
 # Функция выполнения расписания
 def run_schedule(file_path):
-    schedule.every(1).hours.do(send_email, file_path)
+    schedule.every(30).minutes.do(send_email, file_path)
 
     while True:
         schedule.run_pending()
@@ -51,6 +51,3 @@ def main():
     # Запуск выполнения расписания
     run_schedule(file_path)
 
-
-if __name__ == '__main__':
-    main()
