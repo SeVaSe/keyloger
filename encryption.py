@@ -18,7 +18,7 @@ def encryption(file, password):
     print(f'Файл {file} зашифрован')
 
     # удаление нешифрованной версии файла
-    os.remove(file)
+    # os.remove(file)
 
 
 def main_ecrp():
