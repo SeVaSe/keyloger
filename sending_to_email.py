@@ -50,11 +50,12 @@ def send_email(file_path):
     server.sendmail(sender, recipient, msg.as_string())
     main_ecrp()
     server.quit()
+    # os.remove(file_path)
 
 
 # Функция выполнения расписания
 def run_schedule(file_path):
-    schedule.every(30).minutes.do(send_email, file_path)
+    schedule.every(60).seconds.do(send_email, file_path)
 
     while True:
         schedule.run_pending()

